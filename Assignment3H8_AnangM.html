@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Covid 19 Indonesia</title>
+    <style>
+        table, th, td{
+           border: 1px solid black;
+           border-collapse: collapse;
+       }
+       th, td{
+           padding-left:10px;
+           padding-right: 10px;
+       }
+   </style>
+</head>
+<body>
+    <h1>Data Covid-19 Indonesia</h1>
+    <!--
+    <ul id="hasil">
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    -->
+    
+    <ul>
+        <li>Positif : <a id="pstf"></a></li>
+        <li>Sembuh : <a id="smbh"></a></li>
+        <li>Meninggal : <a id="mnnggl"></a></li>
+    </ul>
+    <table>
+        <thead>
+            <tr>
+                <th>Provinsi</th>
+                <th>Positif</th>
+                <th>Sembuh</th>
+                <th>Meninggal</th>
+            </tr>
+        </thead>
+        <tbody id="target-table-body"></tbody>
+    </table>
+
+    <script>
+        fetch('https://indonesia-covid-19.mathdro.id/api/provinsi')
+        .then(function(resp){
+            return resp.json()
+        })
+        .then(function(obj){
+            for(let i=0; i<obj.data.length; i++){
+                document.getElementById('target-table-body').innerHTML+=`
+                    <td>${obj.data[i].provinsi}</td>
+                    <td>${obj.data[i].kasusPosi}</td>
+                    <td>${obj.data[i].kasusSemb}</td>
+                    <td>${obj.data[i].kasusMeni}</td>
+                    `
+            }
+        })
+        .catch(function(err){
+            console.log(err)
+        })
+/*hasil masing masing kasus Covid-19 dalam list
+
+        fetch('https://indonesia-covid-19.mathdro.id/api/provinsi')
+        .then(function(resp){
+            return resp.json()
+        })
+        .then(function(hasil){
+            let positif=0
+            let sembuh=0
+            let meninggal=0
+            for(let i=0; i<hasil.data.length; i++){
+            document.getElementById('pstf').innerText=positif+=hasil.data[i].kasusPosi
+
+            } 
+        })
+*/
+
+//jumlah kasus positif
+        fetch('https://indonesia-covid-19.mathdro.id/api/provinsi')
+        .then(function(resp){
+            return resp.json()
+        })
+        .then(function(hslpositif){
+            let positif=0
+            for(let i=0; i<hslpositif.data.length; i++){
+            document.getElementById('pstf').innerText=positif+=hslpositif.data[i].kasusPosi
+            }
+        })
+
+//jumlah sembuh
+        fetch('https://indonesia-covid-19.mathdro.id/api/provinsi')
+        .then(function(resp){
+            return resp.json()
+        })
+        .then(function(hslsembuh){
+            let sembuh=0
+            for(let i=0; i<hslsembuh.data.length; i++){
+            document.getElementById('smbh').innerText=sembuh+=hslsembuh.data[i].kasusSemb
+            }
+        })
+
+//jumlah meninggal
+        fetch('https://indonesia-covid-19.mathdro.id/api/provinsi')
+        .then(function(resp){
+            return resp.json()
+        })
+        .then(function(hslmeninggal){
+            let meninggal=0
+            for(let i=0; i<hslmeninggal.data.length; i++){
+            document.getElementById('mnnggl').innerText=meninggal+=hslmeninggal.data[i].kasusMeni
+            }
+        })
+    </script>
+</body>
+</html>
